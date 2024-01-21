@@ -1,6 +1,8 @@
 import pygame
-import sys
 import random
+
+pygame.init()
+pygame.font.init()
 
 width = 1200
 height = 600
@@ -21,6 +23,7 @@ gravity = 0.01
 jump_force = -1
 hero_velocity = 0
 jumping = False
+game_over = False
 
 def draw_hero():
     window.blit(hero_image, (hero_x, hero_y))
@@ -42,6 +45,23 @@ def draw_posts():
     if post[1] < 600:
         create_pipe()
 
+def collision_check():
+    global game_over
+    for post in all_posts:
+        if hero_x + hero_image.get_width() > post[1] and hero_x < post[1] + post[0].get_width():
+            if hero_y < post[2] + post[0].get_height() or hero_y + hero_image.get_height() > post[2] + post[0].get_height() + 200:
+                game_over = True
+
+def game_over_screen():
+    window.fill((0, 0, 0))
+
+    font = pygame.font.Font(None, 36)
+    text = font.render("ИГРА ОКОНЧЕНА", True, (255, 255, 255))
+    text_rect = text.get_rect(center=(width/2, height / 2))
+    window.blit(text, text_rect)
+
+    pygame.display.flip()
+
 create_pipe()
 running = True
 while running:
@@ -62,8 +82,16 @@ while running:
 
     hero_y += hero_velocity
 
+    hero_y += hero_velocity
+
     if hero_y > height:
         hero_y = height
+
+    collision_check()
+
+    if game_over:
+        game_over_screen()
+        running = False
 
     window.blit(background_image, (0, 0))
     draw_hero()
