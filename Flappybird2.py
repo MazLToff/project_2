@@ -19,8 +19,8 @@ hero_x, hero_y = abs(width / 12), abs(height / 2) - 20
 post_image = pygame.image.load('images/post.png')
 all_posts = []
 
-gravity = 0.01
-jump_force = -1
+gravity = 0.006
+jump_force = -0.5
 hero_velocity = 0
 jumping = False
 game_over = False
@@ -42,8 +42,9 @@ def draw_posts():
     for post in all_posts:
         window.blit(post[0], (post[1], post[2]))
         post[1] -= 0.7
-    if post[1] < 600:
+    if all_posts and all_posts[0][1] < -100:
         create_pipe()
+
 
 def collision_check():
     global game_over
@@ -61,6 +62,7 @@ def game_over_screen():
     window.blit(text, text_rect)
 
     pygame.display.flip()
+
 
 create_pipe()
 running = True
@@ -86,6 +88,11 @@ while running:
 
     if hero_y > height:
         hero_y = height
+
+    if hero_y < 0:
+        hero_y = 0
+    elif hero_y > height - hero_image.get_height():
+        hero_y = height - hero_image.get_height()
 
     collision_check()
 
