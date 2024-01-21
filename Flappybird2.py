@@ -19,8 +19,8 @@ hero_x, hero_y = abs(width / 12), abs(height / 2) - 20
 post_image = pygame.image.load('images/post.png')
 all_posts = []
 
-gravity = 0.006
-jump_force = -0.5
+gravity = 0.004
+jump_force = -0.4
 hero_velocity = 0
 jumping = False
 game_over = False
@@ -35,8 +35,10 @@ def create_pipe():
         post1 = pygame.transform.scale(post_image, (100, post_height))
         post2 = pygame.transform.scale(post_image, (100, height - post_height - gm))
 
-        all_posts.append([post1, width, 0])
-        all_posts.append([post2, width, post_height + gm])
+        offset = random.randint(100, 300)
+        all_posts.append([post1, width + offset, 0])
+        all_posts.append([post2, width + offset, post_height + gm])
+
 
 def draw_posts():
     for post in all_posts:
@@ -52,6 +54,10 @@ def collision_check():
         if hero_x + hero_image.get_width() > post[1] and hero_x < post[1] + post[0].get_width():
             if hero_y < post[2] + post[0].get_height() or hero_y + hero_image.get_height() > post[2] + post[0].get_height() + 200:
                 game_over = True
+            else:
+                game_over = False
+                break
+
 
 def game_over_screen():
     window.fill((0, 0, 0))
