@@ -1,6 +1,9 @@
-def main():
-    print('My first git program')
+import pygame
+import sys
 
 
-if __name__ == '__main__':
-    main()
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
