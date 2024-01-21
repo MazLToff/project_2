@@ -1,5 +1,7 @@
 import sys
-from PyQt6.QtWidgets import QWidget, QPushButton, QApplication
+from PyQt6.QtWidgets import QWidget, QPushButton, QApplication, QLabel
+from PyQt6.QtCore import QSize
+from PyQt6.QtGui import QPixmap, QImage, QIcon
 import subprocess
 
 
@@ -7,13 +9,43 @@ class StartWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Экран смерти')
-        self.setGeometry(100, 100, 1200, 600)
-        # self.setWindowIcon()
+        self.setGeometry(300, 200, 1200, 600)
+        self.setFixedSize(QSize(1200, 600))
+        # self.setWindowIcon(QIcon('images/icon.png'))
+
+        self.pixmap = QPixmap.fromImage(QImage('images/background_2.png'))
+        self.image = QLabel(self)
+        self.image.setGeometry(0, 0, 1200, 600)
+        self.image.setPixmap(self.pixmap)
 
         self.reset_button = QPushButton('Начать сначала', self)
-        self.reset_button.move(50, 50)
+        self.reset_button.setGeometry(640, 470, 200, 40)
+        self.reset_button.setStyleSheet("QPushButton {"
+                             "    background-color: #9400D3;"
+                             "    color: white;"
+                             "    border-radius: 10px;"
+                             "    font-size: 16px;"
+                             "}"
+                             "QPushButton:hover {"
+                             "    background-color: #8A2BE2;"
+                             "}"
+                             "QPushButton:pressed {"
+                             "    background-color: #9932CC;"
+                             "}")
         self.home_button = QPushButton('В главное меню', self)
-        self.home_button.move(0, 00)
+        self.home_button.setGeometry(350, 470, 200, 40)
+        self.home_button.setStyleSheet("QPushButton {"
+                             "    background-color: #9400D3;"
+                             "    color: white;"
+                             "    border-radius: 10px;"
+                             "    font-size: 16px;"
+                             "}"
+                             "QPushButton:hover {"
+                             "    background-color: #8A2BE2;"
+                             "}"
+                             "QPushButton:pressed {"
+                             "    background-color: #9932CC;"
+                             "}")
 
         self.reset_button.clicked.connect(self.game)
         self.home_button.clicked.connect(self.home)
