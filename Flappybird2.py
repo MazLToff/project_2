@@ -4,6 +4,7 @@ import random
 
 width = 1200
 height = 600
+game_images = {}
 window = pygame.display.set_mode((width, height))
 
 background_image = pygame.image.load('images/background.png')
@@ -21,15 +22,33 @@ def draw_hero():
     window.blit(hero_image, (hero_x, hero_y))
 
 
+def createPipe():
+    offset = height / 3
+    pipeHeight = game_images['pipeimage'][0].get_height()
+    y2 = offset + \
+         random.randrange(
+             0, int(height - game_images['sea_level'].get_height() - 1.2 * offset))
+    pipeX = width + 10
+    y1 = pipeHeight - y2 + offset
+    pipe = [
+        # upper Pipe
+        {'x': pipeX, 'y': -y1},
+
+        # lower Pipe
+        {'x': pipeX, 'y': y2}
+    ]
+    return pipe
+
 def create_post():
-    post1, post2 = post_image, post_image
+    if len(all_posts) == 0 or width - all_posts[-1][1] > 300:
+        gm = 200
+        post_height = random.randint(50, height - gm - 50)
+        post1 = pygame.transform.scale(post_image, (100, post_height))
+        post2 = pygame.transform.scale(post_image, (100, height - post_height - gm))
 
-    post1_height = random.randint(100, 400)
-    post1 = pygame.transform.scale(post1, (100, post1_height))
-    post2 = pygame.transform.scale(post2, (100, (600 - post1_height) - 100))
+        all_posts.append([post1, width, 0])
+        all_posts.append([post2, width, post_height + gm])
 
-    all_posts.append([post1, 1200, 0])
-    all_posts.append([post2, 1200, 500])
 
 
 def draw_posts():
