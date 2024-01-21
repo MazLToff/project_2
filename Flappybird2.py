@@ -22,8 +22,10 @@ jump_force = -1
 hero_velocity = 0
 jumping = False
 
+
 def draw_hero():
     window.blit(hero_image, (hero_x, hero_y))
+
 
 def create_pipe():
     if len(all_posts) == 0 or width - all_posts[-1][1] > 300:
@@ -35,12 +37,14 @@ def create_pipe():
         all_posts.append([post1, width, 0])
         all_posts.append([post2, width, post_height + gm])
 
+
 def draw_posts():
     for post in all_posts:
         window.blit(post[0], (post[1], post[2]))
         post[1] -= 0.7
     if post[1] < 600:
         create_pipe()
+
 
 create_pipe()
 running = True
@@ -63,7 +67,7 @@ while running:
     hero_y += hero_velocity
 
     if hero_y > height:
-        hero_y = height
+        running = False
 
     window.blit(background_image, (0, 0))
     draw_hero()
