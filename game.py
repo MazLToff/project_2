@@ -1,13 +1,13 @@
 import pygame
 import random
 import subprocess
+from score import new_points
 
 pygame.init()
 pygame.font.init()
 
 width = 1200
 height = 600
-game_images = {}
 window = pygame.display.set_mode((width, height))
 
 background_image = pygame.image.load('images/background.png')
@@ -64,14 +64,14 @@ def collision_check():
 
 
 # def game_over_screen():
-    # window.fill((0, 0, 0))
-    #
-    # font = pygame.font.Font(None, 36)
-    # text = font.render("ИГРА ОКОНЧЕНА", True, (255, 255, 255))
-    # text_rect = text.get_rect(center=(width / 2, height / 2))
-    # window.blit(text, text_rect)
-    #
-    # pygame.display.flip()
+# window.fill((0, 0, 0))
+#
+# font = pygame.font.Font(None, 36)
+# text = font.render("ИГРА ОКОНЧЕНА", True, (255, 255, 255))
+# text_rect = text.get_rect(center=(width / 2, height / 2))
+# window.blit(text, text_rect)
+#
+# pygame.display.flip()
 
 
 create_pipe()
@@ -81,10 +81,10 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
                 jumping = True
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
                 jumping = False
 
     if jumping:
@@ -107,6 +107,9 @@ while running:
     collision_check()
 
     if game_over:
+        points = int(len(all_posts) / 2) - 3
+        points = 0 if points < 0 else points
+        new_points(points)
         path = 'end.py'
         pygame.quit()
         subprocess.call(['python', path])
