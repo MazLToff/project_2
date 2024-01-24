@@ -63,17 +63,6 @@ def collision_check():
                 break
 
 
-# def game_over_screen():
-# window.fill((0, 0, 0))
-#
-# font = pygame.font.Font(None, 36)
-# text = font.render("ИГРА ОКОНЧЕНА", True, (255, 255, 255))
-# text_rect = text.get_rect(center=(width / 2, height / 2))
-# window.blit(text, text_rect)
-#
-# pygame.display.flip()
-
-
 create_pipe()
 running = True
 while running:
